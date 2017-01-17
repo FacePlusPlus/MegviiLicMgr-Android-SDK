@@ -14,7 +14,7 @@ android {
             // libraries Gradle should build and package with your APK.
             abiFilters 'arm64-v8a', 'armeabi-v7a'
         }
-        project.archivesBaseName = "MGLicenceManageSDK"
+        project.archivesBaseName = "MGLicenseManagerSDK"
         project.version = android.defaultConfig.versionName
     }
     buildTypes {
@@ -47,22 +47,24 @@ android {
 }
 
 task releaseAll() {
-    delete '../release'
-    copy {
-        from "build/intermediates/bundles/release/"
-        into "../release/for-eclipse/libs"
-        include "classes.jar"
-        rename ("classes.jar", "${archivesBaseName}-${version}.jar")
-    }
-    copy {
-        from "build/outputs/aar/${archivesBaseName}-${version}.aar"
-        //include "*"
-        into "../release"
-    }
-    copy {
-        from "build/intermediates/ndkBuild/release/obj/local/"
-        exclude "*/objs"
-        into "../release/for-eclipse/libs"
+    doLast {
+        delete '../release'
+        copy {
+            from "build/intermediates/bundles/release/"
+            into "../release/for-eclipse/libs"
+            include "classes.jar"
+            rename("classes.jar", "${archivesBaseName}-${version}.jar")
+        }
+        copy {
+            from "build/outputs/aar/${archivesBaseName}-${version}.aar"
+            //include "*"
+            into "../release"
+        }
+        copy {
+            from "build/intermediates/ndkBuild/release/obj/local/"
+            exclude "*/objs"
+            into "../release/for-eclipse/libs"
+        }
     }
     dependsOn build
 }
