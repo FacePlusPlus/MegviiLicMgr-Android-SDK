@@ -11,8 +11,8 @@ local.properties
 .gradle/
 obj/
 .externalNativeBuild
-MGLicenseManageSDK/src/main/jni/libs/
-MGLicenseManageSDK/src/main/jni/megviifacepp_*_model
+MGLicenseManagerSDK/src/main/jni/libs/
+MGLicenseManagerSDK/src/main/jni/megviifacepp_*_model
 release/
 build/
 .idea
