@@ -113,21 +113,17 @@ public final class HttpURLClient {
                     mHttpResponse.onDownLoadResult(respCode, receiveData, null);
                     return false;
                 }
-            } else if (respCode == HttpURLConnection.HTTP_INTERNAL_ERROR || respCode == HttpURLConnection
-                    .HTTP_NOT_FOUND
-                    || respCode == HttpURLConnection.HTTP_VERSION || respCode == HttpURLConnection.HTTP_BAD_GATEWAY
-                    || respCode == HttpURLConnection.HTTP_UNAUTHORIZED
-                    || respCode == HttpURLConnection.HTTP_GATEWAY_TIMEOUT) {
-
-                connectionClose(conn);
-                mHttpResponse.onDownLoadResult(respCode, receiveData, null);
-                return false;
             } else {
                 // 遍历获取服务器回复的头信息
                 HashMap<String, String> reposeHeaders = storeResponseHeaders(conn);
 
-                // 打开http连接的返回流
-                InputStream ms = conn.getInputStream();
+                InputStream ms = null;
+                try {
+                    // 打开http连接的返回流
+                    ms = conn.getInputStream();
+                } catch (Exception e){
+                    ms = conn.getErrorStream();
+                }
 
                 int len = 0;
                 ByteArrayOutputStream baos = new ByteArrayOutputStream();
