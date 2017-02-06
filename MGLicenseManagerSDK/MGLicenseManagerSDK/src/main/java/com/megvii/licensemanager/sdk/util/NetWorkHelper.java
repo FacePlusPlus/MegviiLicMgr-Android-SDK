@@ -12,7 +12,7 @@ import java.net.URLEncoder;
 public class NetWorkHelper {
 
     /**
-     * 生成加密后的url
+     * 生成编译后的url
      */
     public static final String makeEncodeURL(String path) {
         if (path != null && path.startsWith("http://") && path.endsWith(".png")) {
