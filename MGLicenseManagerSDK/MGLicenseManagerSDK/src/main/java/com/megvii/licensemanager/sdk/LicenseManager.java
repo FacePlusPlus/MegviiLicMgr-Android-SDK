@@ -29,7 +29,8 @@ public class LicenseManager {
     private Context context;
     private long authTimeBufferMillis = 24 * 60 * 60 * 1000;
     private long expirationMillis = 0;
-
+    private static final String US_URL = "https://api-us.faceplusplus.com/sdk/v2/auth";
+    private static final String CN_URL = "https://api-cn.faceplusplus.com/sdk/v2/auth";
 
     /**
      * @brief 联网授权 SDK 的构造方法
@@ -136,17 +137,17 @@ public class LicenseManager {
      * @param[in] apiSecret 申请的授权时长（以当前时间开始计算，向后30或365天）
      * @param[in] apiName API 标识
      * @param[in] durationTime 申请的授权时长（以当前时间开始计算，向后30或365天）
+     * @param[in] isCN 是否在中国地区
      * @param[out] takeLicenseCallback 授权成功或者失败返回
      */
     public void takeLicenseFromNetwork(String uuid, String apiKey, String apiSecret, long[] apiName, int durationTime,
-                                       String sdkType, String duration,
+                                       String sdkType, String duration, boolean isCN,
                                        final TakeLicenseCallback takeLicenseCallback) {
         boolean isAuthSuccess = needToTakeLicense();
         if (isAuthSuccess) {
             if (takeLicenseCallback != null)
                 takeLicenseCallback.onSuccess();
         } else {
-            String pathUrl = "https://api.megvii.com/megviicloud/v2/sdk/auth";
             String content = getContext(uuid, durationTime, apiName);
             String errorStr = getLastError();
             RequestManager requestManager = new RequestManager(context);
@@ -164,7 +165,7 @@ public class LicenseManager {
             map.put("Content-Type", "application/json");
             map.put("Charset", "UTF-8");
 
-            requestManager.postRequest(pathUrl, params.getBytes(), null, new IHttpRequestRelult() {
+            requestManager.postRequest(isCN ? CN_URL : US_URL, params.getBytes(), null, new IHttpRequestRelult() {
                 @Override
                 public void onDownLoadComplete(int code, byte[] date, HashMap<String, String> headers) {
                     String successStr = new String(date);
