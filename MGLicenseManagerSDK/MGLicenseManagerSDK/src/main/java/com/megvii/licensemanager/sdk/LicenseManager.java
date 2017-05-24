@@ -146,7 +146,7 @@ public class LicenseManager {
             if (takeLicenseCallback != null)
                 takeLicenseCallback.onSuccess();
         } else {
-            String pathUrl = "http://11.171.71.106:12033/sdk/v2/auth";
+            String pathUrl = "https://api.megvii.com/megviicloud/v2/sdk/auth";
             String content = getContext(uuid, durationTime, apiName);
             String errorStr = getLastError();
             RequestManager requestManager = new RequestManager(context);
