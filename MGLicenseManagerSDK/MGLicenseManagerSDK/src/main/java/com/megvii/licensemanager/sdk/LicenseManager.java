@@ -139,20 +139,23 @@ public class LicenseManager {
      * @param[out] takeLicenseCallback 授权成功或者失败返回
      */
     public void takeLicenseFromNetwork(String uuid, String apiKey, String apiSecret, long[] apiName, int durationTime,
+                                       String sdkType, String duration,
                                        final TakeLicenseCallback takeLicenseCallback) {
         boolean isAuthSuccess = needToTakeLicense();
         if (isAuthSuccess) {
             if (takeLicenseCallback != null)
                 takeLicenseCallback.onSuccess();
         } else {
-            String pathUrl = "https://api.megvii.com/megviicloud/v1/sdk/auth";
+            String pathUrl = "http://11.171.71.106:12033/sdk/v2/auth";
             String content = getContext(uuid, durationTime, apiName);
             String errorStr = getLastError();
             RequestManager requestManager = new RequestManager(context);
             String params = "";
             try {
                 params = "api_key=" + URLEncoder.encode(apiKey, "utf-8") + "&api_secret="
-                        + URLEncoder.encode(apiSecret, "utf-8") + "&auth_msg=" + URLEncoder.encode(content, "utf-8");
+                        + URLEncoder.encode(apiSecret, "utf-8") + "&auth_msg=" + URLEncoder.encode(content, "utf-8")
+                        + "&sdk_type=" + URLEncoder.encode(sdkType, "utf-8")
+                        + "&auth_duration=" + URLEncoder.encode(duration, "utf-8");
             } catch (Exception e) {
                 e.printStackTrace();
             }

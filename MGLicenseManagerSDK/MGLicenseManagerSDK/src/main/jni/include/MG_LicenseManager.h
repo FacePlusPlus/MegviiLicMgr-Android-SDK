@@ -20,9 +20,11 @@
  * [facepp]: https://www.faceplusplus.com.cn/ "Face++ 官网"
  */
 typedef enum {
-	MG_LICMGR_DURATION_30DAYS = 30,         ///< 单次授权30天
+    MG_LICMGR_DURATION_1DAY = 1,
+    
+    MG_LICMGR_DURATION_30DAYS = 30,         ///< 单次授权30天
 
-	MG_LICMGR_DURATION_365DAYS = 365        ///< 单次授权365天
+    MG_LICMGR_DURATION_365DAYS = 365        ///< 单次授权365天
 } MG_LICMGR_DURATION;
 
 /**
@@ -34,63 +36,63 @@ typedef enum {
  */
 typedef struct {
 
-	/**
-	 * @brief 获取一个用于授权请求的上下文信息
-	 *
-	 * 可以获取一个同时对一个或多个 Face++ 的算法进授权的上下文信息。
-	 *
-	 * @param[in] env               Android jni 的环境变量，仅在 Android SDK 中使用
-	 * @param[in] jobj              Android 调用的上下文，仅在 Android SDK 中使用
-	 * @param[in] duration          申请的授权时长（以当前时间开始计算，向后30或365天）
-	 * @param[in] uuid              标示不同用户的唯一 id，可以为空。如果 uuid 有具体意义，则可以享受由 Face++ 提供的各种统计服务。
-	 * @param[in] ...               传入需要授权的算法 GetAPIVersion 的指针，并以 MG_END_ARG 结束。
-	 *                              例如需要对mg_facepp算法进行授权，则传入参数为：
-	 *                              mg_licmgr.GetContext(
-	 *                                  duration,
-	 *                                  uuid,
-	 *                                  &context_data,
-	 *                                  &context_length ,
-	 *                                  mg_facepp.GetApiVersion,
-	 *                                  MG_END_ARG)
-	 *
-	 * @param[out] context_data     获取的上下文信息，成功创建后会修改其值
-	 * @param[out] context_length   获取的上下文信息的长度，成功创建后会修改其值
-	 *
-	 * @return 成功则返回 MG_RETCODE_OK
-	 */
-	MG_RETCODE (*GetContext) (
+    /**
+     * @brief 获取一个用于授权请求的上下文信息
+     *
+     * 可以获取一个同时对一个或多个 Face++ 的算法进授权的上下文信息。
+     *
+     * @param[in] env               Android jni 的环境变量，仅在 Android SDK 中使用
+     * @param[in] jobj              Android 调用的上下文，仅在 Android SDK 中使用
+     * @param[in] duration          申请的授权时长（以当前时间开始计算，向后30或365天）
+     * @param[in] uuid              标示不同用户的唯一 id，可以为空。如果 uuid 有具体意义，则可以享受由 Face++ 提供的各种统计服务。
+     * @param[in] ...               传入需要授权的算法 GetAPIVersion 的指针，并以 MG_END_ARG 结束。
+     *                              例如需要对mg_facepp算法进行授权，则传入参数为：
+     *                              mg_licmgr.GetContext(
+     *                                  duration,
+     *                                  uuid,
+     *                                  &context_data,
+     *                                  &context_length ,
+     *                                  mg_facepp.GetApiVersion,
+     *                                  MG_END_ARG)
+     *
+     * @param[out] context_data     获取的上下文信息，成功创建后会修改其值
+     * @param[out] context_length   获取的上下文信息的长度，成功创建后会修改其值
+     *
+     * @return 成功则返回 MG_RETCODE_OK
+     */
+    MG_RETCODE (*GetContext) (
 #if MGAPI_BUILD_ON_ANDROID
-			JNIEnv* env,
-			jobject jobj,
+        JNIEnv* env,
+        jobject jobj,
 #endif
-			MG_LICMGR_DURATION duration,
-			const char* uuid,
-			const char _OUT **context_data,
-			MG_INT32 _OUT *context_length,
-			...);
+        MG_LICMGR_DURATION duration,
+        const char* uuid,
+        const char _OUT **context_data,
+        MG_INT32 _OUT *context_length,
+        ...);
 
-	/**
-	 * @brief 设置一个许可证，进行授权
-	 *
-	 * 将 GetContext 获取的上下文信息，发送给 Face++ 的授权 API，获取 license 信息后，通过该函数对算法进行授权。
-	 * 授权完成后可以用 GetExpiration 函数查看授权结果。
-	 * 授权请求涉及到设备的网络权限，需要开发者自己完成。授权相关的 Web API 文档见如下网址：
-	 * [online-auth] https://console.faceplusplus.com.cn/documents/5671789 "Face++ 联网授权"
-	 *
-	 * @param[in] env               Android jni 的环境变量，仅在 Android SDK 中使用
-	 * @param[in] jobj              Android 调用的上下文，仅在 Android SDK 中使用
-	 * @param[in] license_data      联网获得的 license 数据
-	 * @param[in] license_length    License 数据的长度
-	 *
-	 * @return 成功则返回 MG_RETCODE_OK
-	 */
-	MG_RETCODE (*SetLicence) (
+    /**
+     * @brief 设置一个许可证，进行授权
+     *
+     * 将 GetContext 获取的上下文信息，发送给 Face++ 的授权 API，获取 license 信息后，通过该函数对算法进行授权。
+     * 授权完成后可以用 GetExpiration 函数查看授权结果。
+     * 授权请求涉及到设备的网络权限，需要开发者自己完成。授权相关的 Web API 文档见如下网址：
+     * [online-auth] https://console.faceplusplus.com.cn/documents/5671789 "Face++ 联网授权"
+     *
+     * @param[in] env               Android jni 的环境变量，仅在 Android SDK 中使用
+     * @param[in] jobj              Android 调用的上下文，仅在 Android SDK 中使用
+     * @param[in] license_data      联网获得的 license 数据
+     * @param[in] license_length    License 数据的长度
+     *
+     * @return 成功则返回 MG_RETCODE_OK
+     */
+    MG_RETCODE (*SetLicence) (
 #if MGAPI_BUILD_ON_ANDROID
-			JNIEnv* env,
-			jobject jobj,
+        JNIEnv* env,
+        jobject jobj,
 #endif
-			const char *license_data,
-			MG_INT32 license_length);
+        const char *license_data,
+        MG_INT32 license_length);
 
 } MG_LICENSE_MANAGER_API_FUNCTIONS_TYPE;
 
