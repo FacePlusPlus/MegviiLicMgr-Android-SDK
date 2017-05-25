@@ -9,7 +9,7 @@ extern "C" {
 JNIEXPORT jstring JNICALL Java_com_megvii_licensemanager_sdk_jni_NativeLicenseAPI_nativeGetLicense(JNIEnv *,
 																								   jobject, jobject,
 																								   jstring, jint,
-																								   jlongArray);
+																								   jlong);
 
 JNIEXPORT jint JNICALL Java_com_megvii_licensemanager_sdk_jni_NativeLicenseAPI_nativeSetLicense(JNIEnv *,
 																								jobject, jobject,

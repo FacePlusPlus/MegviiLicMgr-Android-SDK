@@ -9,7 +9,7 @@ import android.content.Context;
  */
 public class NativeLicenseAPI {
 
-    public static native String nativeGetLicense(Context context, String uuid, int duration, long[] apiName);
+    public static native String nativeGetLicense(Context context, String uuid, int duration, long apiName);
 
     public static native int nativeSetLicense(Context context, String handle);
 

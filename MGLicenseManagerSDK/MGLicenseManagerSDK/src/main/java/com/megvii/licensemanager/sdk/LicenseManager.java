@@ -72,9 +72,9 @@ public class LicenseManager {
      * @param[in] durationTime 申请的授权时长（以当前时间开始计算，向后 30 或 365 天）
      * @param[in] apiName API 标识
      */
-    public String getContext(String uuid, int duration, long[] apiName) {
+    public String getContext(String uuid, int duration, long apiName) {
         lastErrorCode = MG_RETCODE_OK;
-        if (context == null || apiName == null || apiName.length == 0) {
+        if (context == null) {
             lastErrorCode = MG_RETCODE_INVALID_ARGUMENT;
             return null;
         }
@@ -140,7 +140,7 @@ public class LicenseManager {
      * @param[in] isCN 是否在中国地区
      * @param[out] takeLicenseCallback 授权成功或者失败返回
      */
-    public void takeLicenseFromNetwork(String uuid, String apiKey, String apiSecret, long[] apiName, int durationTime,
+    public void takeLicenseFromNetwork(String uuid, String apiKey, String apiSecret, long apiName, int durationTime,
                                        String sdkType, String duration, boolean isCN,
                                        final TakeLicenseCallback takeLicenseCallback) {
         boolean isAuthSuccess = needToTakeLicense();
