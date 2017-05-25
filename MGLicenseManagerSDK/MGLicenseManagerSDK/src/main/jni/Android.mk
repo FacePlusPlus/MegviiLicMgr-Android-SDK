@@ -2,12 +2,12 @@ LOCAL_PATH := $(call my-dir)
 
 include $(CLEAR_VARS)
 LOCAL_MODULE := OnlinAuth
-LOCAL_SRC_FILES  := $(LOCAL_PATH)/libs/${TARGET_ARCH_ABI}/libMegviiLicenseManager-0.2.0.so
+LOCAL_SRC_FILES  := $(LOCAL_PATH)/libs/${TARGET_ARCH_ABI}/libMegviiLicenseManager-0.3.0.so
 include $(PREBUILT_SHARED_LIBRARY)
 
 
 include $(CLEAR_VARS)
-LOCAL_MODULE    := MegviiLicenseManager-jni-0.2.0
+LOCAL_MODULE    := MegviiLicenseManager-jni-0.3.0
 LOCAL_SRC_FILES := megvii_licensemanager_jni.cpp
 LOCAL_C_INCLUDES := include
 LOCAL_C_INCLUDES += thirdparty security
