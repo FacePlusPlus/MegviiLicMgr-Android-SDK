@@ -9,10 +9,11 @@ android {
         versionCode 1
         versionName "0.3.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-        ndk {
-            // Specifies the ABI configurations of your native
-            // libraries Gradle should build and package with your APK.
-            abiFilters 'arm64-v8a', 'armeabi-v7a'
+        externalNativeBuild {
+            cmake {
+                abiFilters 'arm64-v8a','armeabi-v7a'
+                arguments "-DANDROID_ARM_NEON=TRUE", "-DANDROID_STL=c++_static"
+            }
         }
         project.archivesBaseName = "MGLicenseManagerSDK"
         project.version = android.defaultConfig.versionName
@@ -25,8 +26,8 @@ android {
     }
 
     externalNativeBuild {
-        ndkBuild {
-            path 'src/main/jni/Android.mk'
+        cmake {
+            path "src/main/cpp/CMakeLists.txt"
         }
     }
 
