@@ -6,7 +6,7 @@ set(CMAKE_INCLUDE_CURRENT_DIR ON)
 SET(VERSION 0.3.0)
 
 include_directories(${CMAKE_SOURCE_DIR}/include)
-
+message (${CMAKE_SOURCE_DIR})
 set(jnilibs "${CMAKE_SOURCE_DIR}/../jniLibs")
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${jnilibs}/${ANDROID_ABI})
 
