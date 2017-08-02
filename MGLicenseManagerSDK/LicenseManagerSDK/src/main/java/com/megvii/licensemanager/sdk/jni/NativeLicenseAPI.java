@@ -9,7 +9,7 @@ import android.content.Context;
  */
 public class NativeLicenseAPI {
 
-    public static native String nativeGetLicense(Context context, String uuid, int duration, long[] apiName);
+    public static native String nativeGetLicense(Context context, String uuid, int duration, long apiName);
 
     public static native int nativeSetLicense(Context context, String handle);
 
@@ -17,7 +17,7 @@ public class NativeLicenseAPI {
      * 这里加载的名称要根据 so 不同的版本号进行修改
      */
     static {
-        System.loadLibrary("MegviiLicenseManager-0.2.0");
-        System.loadLibrary("MegviiLicenseManager-jni-0.2.0");
+        System.loadLibrary("MegviiLicenseManager-0.3.0");
+        System.loadLibrary("MegviiLicenseManager-jni-0.3.0");
     }
 }

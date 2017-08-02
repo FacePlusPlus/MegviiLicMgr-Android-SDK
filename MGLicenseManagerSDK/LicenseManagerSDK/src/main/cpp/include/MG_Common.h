@@ -34,7 +34,9 @@ typedef enum {
 
     MG_RETCODE_INVALID_MODEL,       ///< 传入了错误的模型（model）
 
-    MG_RETCODE_FAILED = -1          ///< 算法内部错误
+    MG_RETCODE_FAILED = -1,         ///< 算法内部错误
+    
+    MG_RETCODE_GL_CONTEXT = 201,    ///< 不在 OpenGL context 下
 } MG_RETCODE;
 
 /**
@@ -126,10 +128,8 @@ typedef int MG_BOOL;
  * @判断 SDK 使用平台
  */
 #if __APPLE__
-#ifndef MGAPI_INTERNAL
-        #include <UIKit/UIKit.h>
-        #define MGAPI_BUILD_ON_IPHONE   1
-    #endif
+    #define MGAPI_BUILD_ON_IPHONE   1
+    
 #elif __ANDROID__
 #define MGAPI_BUILD_ON_ANDROID	1
 #include <jni.h>
@@ -161,7 +161,7 @@ typedef struct {
  */
 typedef struct {
     MG_INT32 left;              ///< 矩形框最左边的坐标值
-
+    
     MG_INT32 top;               ///< 矩形框最上边的坐标值
 
     MG_INT32 right;             ///< 矩形框最右边的坐标值
@@ -307,9 +307,9 @@ typedef struct {
  * 记录人脸男女属性的类型，男女概率之和为 1。
  */
 typedef struct {
-    MG_SINGLE female;                           ///< 是男性人脸的概率
+    MG_SINGLE female;                           ///< 是女性人脸的概率
 
-    MG_SINGLE male;                             ///< 是女性人脸的概率
+    MG_SINGLE male;                             ///< 是男性人脸的概率
 } MG_GENDER;
 
 /**
@@ -357,16 +357,16 @@ typedef enum {
  */
 typedef struct {
     MG_INT32 track_id;                              ///< 人脸的跟踪标记。
-    ///< 如果只对单张图做人脸检测则固定返回 -1，
-    ///< 否则在不同帧中相同的 track_id 表示同一个人脸。
-    ///< 每次初始化后 track_id 的值为从 0 开始依此递增。
-
+                                                    ///< 如果只对单张图做人脸检测则固定返回 -1，
+                                                    ///< 否则在不同帧中相同的 track_id 表示同一个人脸。
+                                                    ///< 每次初始化后 track_id 的值为从 0 开始依此递增。
+                                                    
     MG_RECTANGLE rect;                              ///< 人脸在图像中的位置，以一个矩形框来刻画。
 
     MG_FACELANDMARKS points;                        ///< 人脸关键点信息。
 
     MG_SINGLE confidence;                           ///< 人脸置信度，为一个 0 ~ 1 之间的浮点数。
-    ///< 超过 0.5 表示这确实是一个人脸。
+                                                    ///< 超过 0.5 表示这确实是一个人脸。
 
     MG_3DPOSE pose;                                 ///< 人脸三维旋转角度。
 
@@ -396,12 +396,21 @@ typedef struct {
     MG_SDKAUTHTYPE auth_type;                       ///< SDK 的授权类型（联网授权或者非联网授权）
 
     MG_UINT64 ability;                              ///< 提供人脸算法的能力
-    ///< 这是一些属性值的 bit 值的或和，
-    ///< 可以参考以 MG_FPP_ATTR_ 开头的宏定义名。
+                                                    ///< 这是一些属性值的 bit 值的或和，
+                                                    ///< 可以参考以 MG_FPP_ATTR_ 开头的宏定义名。
 
 } MG_ALGORITHMINFO;
 
-
+typedef enum {
+    MG_ROTATION_0 = 0,                              ///< 不旋转
+    
+    MG_ROTATION_90 = 90,                            ///< 图像右时针旋转 90 度
+    
+    MG_ROTATION_180 = 180,                          ///< 图像右时针旋转 180 度
+    
+    MG_ROTATION_270 = 270,                          ///< 图像右时针旋转 270 度
+} MG_ROTATION;
+    
 #ifdef __cplusplus
 }
 #endif
