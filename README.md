@@ -20,11 +20,11 @@ dependencies {
 }
 ```
 
-版本号： 0.3.0
-（此版本SDK适用于 Megvii-LicenseManager 0.3.0）
+版本号： 0.3.1
+（此版本SDK适用于 Megvii-LicenseManager 0.3.1）
 
 [了解更多](https://github.com/FacePlusPlus/MegviiLicMgr-Android-SDK/wiki)
 
-Version: 0.3.0 (This version is compatible to Megvii-LicenseManager 0.3.0)
+Version: 0.3.1 (This version is compatible to Megvii-LicenseManager 0.3.1)
 
 [Learn more](https://github.com/FacePlusPlus/MegviiLicMgr-Android-SDK/wiki)
