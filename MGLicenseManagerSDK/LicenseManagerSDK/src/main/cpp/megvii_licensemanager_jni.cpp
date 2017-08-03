@@ -16,25 +16,18 @@
 
 jstring Java_com_megvii_licensemanager_sdk_jni_NativeLicenseAPI_nativeGetLicense(
         JNIEnv *env, jobject, jobject ctx, jstring juuid, jint duration,
-        jlongArray apiName) {
+        jlong apiName) {
 
     const char *uuid = env->GetStringUTFChars(juuid, 0);
     const char *context_data = nullptr;
     MG_INT32 context_length = 0;
-    jlong *api_names = env->GetLongArrayElements(apiName, 0);
     MG_LICMGR_DURATION DURATION = MG_LICMGR_DURATION_30DAYS;
     if (duration == DURATION_365DAYS)
         DURATION = MG_LICMGR_DURATION_365DAYS;
     typedef const char *(*pfunc)();
-    if (env->GetArrayLength(apiName) == 1) {
         mg_licmgr.GetContext(env, ctx, DURATION, uuid, &context_data,
-                             &context_length, (pfunc) (api_names[0]),
+                             &context_length, (pfunc) (apiName),
                              MG_END_ARG);
-    } else if (env->GetArrayLength(apiName) == 2) {
-        mg_licmgr.GetContext(env, ctx, DURATION, uuid, &context_data,
-                             &context_length, (pfunc) (api_names[0]), (pfunc) (api_names[1]),
-                             MG_END_ARG);
-    }
 
     std::string tmp_str(context_data, context_data + context_length);
     env->ReleaseStringUTFChars(juuid, uuid);

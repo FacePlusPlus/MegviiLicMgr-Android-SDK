@@ -29,7 +29,8 @@ public class LicenseManager {
     private Context context;
     private long authTimeBufferMillis = 24 * 60 * 60 * 1000;
     private long expirationMillis = 0;
-
+    private static final String US_URL = "https://api-us.faceplusplus.com/sdk/v2/auth";
+    private static final String CN_URL = "https://api-cn.faceplusplus.com/sdk/v2/auth";
 
     /**
      * @brief 联网授权 SDK 的构造方法
@@ -71,9 +72,9 @@ public class LicenseManager {
      * @param[in] durationTime 申请的授权时长（以当前时间开始计算，向后 30 或 365 天）
      * @param[in] apiName API 标识
      */
-    public String getContext(String uuid, int duration, long[] apiName) {
+    public String getContext(String uuid, int duration, long apiName) {
         lastErrorCode = MG_RETCODE_OK;
-        if (context == null || apiName == null || apiName.length == 0) {
+        if (context == null) {
             lastErrorCode = MG_RETCODE_INVALID_ARGUMENT;
             return null;
         }
@@ -136,23 +137,26 @@ public class LicenseManager {
      * @param[in] apiSecret 申请的授权时长（以当前时间开始计算，向后30或365天）
      * @param[in] apiName API 标识
      * @param[in] durationTime 申请的授权时长（以当前时间开始计算，向后30或365天）
+     * @param[in] isCN 是否在中国地区
      * @param[out] takeLicenseCallback 授权成功或者失败返回
      */
-    public void takeLicenseFromNetwork(String uuid, String apiKey, String apiSecret, long[] apiName, int durationTime,
+    public void takeLicenseFromNetwork(String uuid, String apiKey, String apiSecret, long apiName, int durationTime,
+                                       String sdkType, String duration, boolean isCN,
                                        final TakeLicenseCallback takeLicenseCallback) {
         boolean isAuthSuccess = needToTakeLicense();
         if (isAuthSuccess) {
             if (takeLicenseCallback != null)
                 takeLicenseCallback.onSuccess();
         } else {
-            String pathUrl = "https://api.megvii.com/megviicloud/v1/sdk/auth";
             String content = getContext(uuid, durationTime, apiName);
             String errorStr = getLastError();
             RequestManager requestManager = new RequestManager(context);
             String params = "";
             try {
                 params = "api_key=" + URLEncoder.encode(apiKey, "utf-8") + "&api_secret="
-                        + URLEncoder.encode(apiSecret, "utf-8") + "&auth_msg=" + URLEncoder.encode(content, "utf-8");
+                        + URLEncoder.encode(apiSecret, "utf-8") + "&auth_msg=" + URLEncoder.encode(content, "utf-8")
+                        + "&sdk_type=" + URLEncoder.encode(sdkType, "utf-8")
+                        + "&auth_duration=" + URLEncoder.encode(duration, "utf-8");
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -161,7 +165,7 @@ public class LicenseManager {
             map.put("Content-Type", "application/json");
             map.put("Charset", "UTF-8");
 
-            requestManager.postRequest(pathUrl, params.getBytes(), null, new IHttpRequestRelult() {
+            requestManager.postRequest(isCN ? CN_URL : US_URL, params.getBytes(), null, new IHttpRequestRelult() {
                 @Override
                 public void onDownLoadComplete(int code, byte[] date, HashMap<String, String> headers) {
                     String successStr = new String(date);
