@@ -1,11 +1,30 @@
 # MegviiLicMgr-Android-SDK
-An iOS wrapper of Megvii-LicenseManager SDK (the mobile SDK). 
+An Android wrapper of Megvii-LicenseManager SDK (the mobile SDK). 
 
-版本号： 0.2.0
-（此版本SDK适用于 Megvii-LicenseManager 0.2.0A）
+This sdk is used for online authentication.
+## How to use
+Step 1. Add the JitPack repository to your build file
+Add it in your root build.gradle at the end of repositories:
+```
+allprojects {
+  repositories {
+    ...
+    maven { url 'https://jitpack.io' }
+  }
+}
+```
+Step 2. Add the dependency
+```
+dependencies {
+        compile 'com.github.FacePlusPlus:MegviiLicMgr-Android-SDK:0.3.1'
+}
+```
 
-[学习如何使用 SDK](https://github.com/FacePlusPlus/MegviiLicMgr-Android-SDK/wiki)
+版本号： 0.3.1
+（此版本SDK适用于 Megvii-LicenseManager 0.3.1）
 
-Version: 0.2.0 (This version is compatible to Megvii-LicenseManager 0.2.0A)
+[了解更多](https://github.com/FacePlusPlus/MegviiLicMgr-Android-SDK/wiki)
 
-[Learn how to use SDK](https://github.com/FacePlusPlus/MegviiLicMgr-Android-SDK/wiki)
+Version: 0.3.1 (This version is compatible to Megvii-LicenseManager 0.3.1)
+
+[Learn more](https://github.com/FacePlusPlus/MegviiLicMgr-Android-SDK/wiki)
