@@ -16,15 +16,15 @@ allprojects {
 Step 2. Add the dependency
 ```
 dependencies {
-        compile 'com.github.FacePlusPlus:MegviiLicMgr-Android-SDK:0.3.1'
+        compile 'com.github.FacePlusPlus:MegviiLicMgr-Android-SDK:0.3.0'
 }
 ```
 
 版本号： 0.3.1
-（此版本SDK适用于 Megvii-LicenseManager 0.3.1）
+（此版本SDK适用于 Megvii-LicenseManager 0.3.0）
 
 [了解更多](https://github.com/FacePlusPlus/MegviiLicMgr-Android-SDK/wiki)
 
-Version: 0.3.1 (This version is compatible to Megvii-LicenseManager 0.3.1)
+Version: 0.3.1 (This version is compatible to Megvii-LicenseManager 0.3.0)
 
 [Learn more](https://github.com/FacePlusPlus/MegviiLicMgr-Android-SDK/wiki)
