@@ -14,6 +14,10 @@ add_library(MegviiLicenseManager-jni-${VERSION}
              SHARED
              megvii_licensemanager_jni.cpp)
 
+add_library(megviiUtils SHARED IMPORTED )
+set_target_properties(megviiUtils PROPERTIES
+    IMPORTED_LOCATION "${jnilibs}/${ANDROID_ABI}/libMegviiInnerUtils-0.0.2.so")
+
 add_library(licenseManager SHARED IMPORTED )
 set_target_properties(licenseManager PROPERTIES
     IMPORTED_LOCATION "${jnilibs}/${ANDROID_ABI}/libMegviiLicenseManager-0.3.0.so")
@@ -24,5 +28,5 @@ find_library( # Sets the name of the path variable.
               # you want CMake to locate.
               log )
 
-target_link_libraries(MegviiLicenseManager-jni-${VERSION} licenseManager ${log-lib})
+target_link_libraries(MegviiLicenseManager-jni-${VERSION} licenseManager megviiUtils ${log-lib})
 

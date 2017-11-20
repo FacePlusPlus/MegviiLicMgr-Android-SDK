@@ -21,13 +21,17 @@ jstring Java_com_megvii_licensemanager_sdk_jni_NativeLicenseAPI_nativeGetLicense
     const char *uuid = env->GetStringUTFChars(juuid, 0);
     const char *context_data = nullptr;
     MG_INT32 context_length = 0;
-    MG_LICMGR_DURATION DURATION = MG_LICMGR_DURATION_30DAYS;
-    if (duration == DURATION_365DAYS)
+    MG_LICMGR_DURATION DURATION = MG_LICMGR_DURATION_1DAY;
+    if (duration == DURATION_365DAYS) {
         DURATION = MG_LICMGR_DURATION_365DAYS;
+    } else if (duration == DURATION_30DAYS) {
+        DURATION = MG_LICMGR_DURATION_30DAYS;
+    }
     typedef const char *(*pfunc)();
-        mg_licmgr.GetContext(env, ctx, DURATION, uuid, &context_data,
-                             &context_length, (pfunc) (apiName),
-                             MG_END_ARG);
+    const char *version = ((pfunc) (apiName))();
+    mg_licmgr.GetContext(DURATION, uuid, &context_data,
+                         &context_length, version,
+                         MG_END_ARG);
 
     std::string tmp_str(context_data, context_data + context_length);
     env->ReleaseStringUTFChars(juuid, uuid);
@@ -39,7 +43,7 @@ jint Java_com_megvii_licensemanager_sdk_jni_NativeLicenseAPI_nativeSetLicense(
         JNIEnv *env, jobject, jobject ctx, jstring jhandle) {
     const char *handle = env->GetStringUTFChars(jhandle, 0);
     MG_INT32 handle_leanth = env->GetStringUTFLength(jhandle);
-    MG_RETCODE retcode = mg_licmgr.SetLicence(env, ctx, handle, handle_leanth);
+    MG_RETCODE retcode = mg_licmgr.SetLicence(handle, handle_leanth);
 
     env->ReleaseStringUTFChars(jhandle, handle);
 
