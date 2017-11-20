@@ -61,10 +61,6 @@ typedef struct {
      * @return 成功则返回 MG_RETCODE_OK
      */
     MG_RETCODE (*GetContext) (
-#if MGAPI_BUILD_ON_ANDROID
-        JNIEnv* env,
-        jobject jobj,
-#endif
         MG_LICMGR_DURATION duration,
         const char* uuid,
         const char _OUT **context_data,
@@ -87,12 +83,9 @@ typedef struct {
      * @return 成功则返回 MG_RETCODE_OK
      */
     MG_RETCODE (*SetLicence) (
-#if MGAPI_BUILD_ON_ANDROID
-        JNIEnv* env,
-        jobject jobj,
-#endif
         const char *license_data,
         MG_INT32 license_length);
+    MG_RETCODE (*GetExpiretime)(const char* version, MG_UINT64 *p_get_expire);
 
 } MG_LICENSE_MANAGER_API_FUNCTIONS_TYPE;
 
