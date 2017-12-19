@@ -29,8 +29,7 @@ public class LicenseManager {
     private Context context;
     private long authTimeBufferMillis = 24 * 60 * 60 * 1000;
     private long expirationMillis = 0;
-    private static final String US_URL = "https://api-us.faceplusplus.com/sdk/v2/auth";
-    private static final String CN_URL = "https://api-cn.faceplusplus.com/sdk/v2/auth";
+
 
     /**
      * @brief 联网授权 SDK 的构造方法
@@ -131,17 +130,18 @@ public class LicenseManager {
 
     /**
      * @brief 联网授权请求
+     * @param[in] url 请求的url，需要根据时区设置对应的url，目前有cn和us
      * @param[in] uuid 标示不同用户的唯一 id，可以为空字符串。如果 uuid 有具体意义，则可以享受由 Face++
      * 提供的各种统计服务。
      * @param[in] apiKey 申请的授权时长（以当前时间开始计算，向后30或365天）
      * @param[in] apiSecret 申请的授权时长（以当前时间开始计算，向后30或365天）
      * @param[in] apiName API 标识
      * @param[in] durationTime 申请的授权时长（以当前时间开始计算，向后30或365天）
-     * @param[in] isCN 是否在中国地区
+
      * @param[out] takeLicenseCallback 授权成功或者失败返回
      */
-    public void takeLicenseFromNetwork(String uuid, String apiKey, String apiSecret, long apiName, int durationTime,
-                                       String sdkType, String duration, boolean isCN,
+    public void takeLicenseFromNetwork(String url,String uuid, String apiKey, String apiSecret, long apiName, int durationTime,
+                                       String sdkType, String duration,
                                        final TakeLicenseCallback takeLicenseCallback) {
         boolean isAuthSuccess = needToTakeLicense();
         if (isAuthSuccess) {
@@ -165,7 +165,7 @@ public class LicenseManager {
             map.put("Content-Type", "application/json");
             map.put("Charset", "UTF-8");
 
-            requestManager.postRequest(isCN ? CN_URL : US_URL, params.getBytes(), null, new IHttpRequestRelult() {
+            requestManager.postRequest(url, params.getBytes(), null, new IHttpRequestRelult() {
                 @Override
                 public void onDownLoadComplete(int code, byte[] date, HashMap<String, String> headers) {
                     String successStr = new String(date);

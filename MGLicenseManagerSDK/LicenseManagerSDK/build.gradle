@@ -40,6 +40,29 @@ android {
     }
 }
 
+build.mustRunAfter clean
+
+task buildAAR(dependsOn: build) {
+    doLast {
+        delete '../release'
+
+        copy {
+            from "build/outputs/aar/MGLicenseManagerSDK-release.aar"
+            //include "*"
+            into "../release"
+            rename{
+                String fileName->
+                    "${archivesBaseName}-${version}.aar"
+            }
+        }
+
+
+
+        println "build arr successful"
+    }
+
+}
+
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
