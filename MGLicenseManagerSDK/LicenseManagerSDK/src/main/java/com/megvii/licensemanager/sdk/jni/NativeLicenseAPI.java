@@ -13,6 +13,10 @@ public class NativeLicenseAPI {
 
     public static native int nativeSetLicense(Context context, String handle);
 
+    public static native long nativeGetExpiretime(long apiName);
+
+
+
     /**
      * 这里加载的名称要根据 so 不同的版本号进行修改
      */

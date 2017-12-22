@@ -129,6 +129,16 @@ public class LicenseManager {
     }
 
     /**
+     * native返回的是秒，要转为毫秒
+     * @param apiName
+     * @return 过期的毫秒
+     */
+    public long getExpirationMillis(long apiName){
+        expirationMillis=  NativeLicenseAPI.nativeGetExpiretime(apiName)*1000;
+        return expirationMillis;
+    }
+
+    /**
      * @brief 联网授权请求
      * @param[in] url 请求的url，需要根据时区设置对应的url，目前有cn和us
      * @param[in] uuid 标示不同用户的唯一 id，可以为空字符串。如果 uuid 有具体意义，则可以享受由 Face++
@@ -143,6 +153,7 @@ public class LicenseManager {
     public void takeLicenseFromNetwork(String url,String uuid, String apiKey, String apiSecret, long apiName, int durationTime,
                                        String sdkType, String duration,
                                        final TakeLicenseCallback takeLicenseCallback) {
+        getExpirationMillis(apiName);
         boolean isAuthSuccess = needToTakeLicense();
         if (isAuthSuccess) {
             if (takeLicenseCallback != null)

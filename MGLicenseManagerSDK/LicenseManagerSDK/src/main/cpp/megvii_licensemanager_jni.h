@@ -14,6 +14,14 @@ JNIEXPORT jstring JNICALL Java_com_megvii_licensemanager_sdk_jni_NativeLicenseAP
 JNIEXPORT jint JNICALL Java_com_megvii_licensemanager_sdk_jni_NativeLicenseAPI_nativeSetLicense(JNIEnv *,
 																								jobject, jobject,
 																								jstring);
+
+JNIEXPORT jlong JNICALL
+Java_com_megvii_licensemanager_sdk_jni_NativeLicenseAPI_nativeGetExpiretime(JNIEnv *,
+																			jclass ,
+																			jlong );
+
+
+
 #ifdef __cplusplus
 }
 #endif

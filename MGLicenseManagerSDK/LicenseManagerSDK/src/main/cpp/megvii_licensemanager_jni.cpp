@@ -49,3 +49,16 @@ jint Java_com_megvii_licensemanager_sdk_jni_NativeLicenseAPI_nativeSetLicense(
 
     return (int) retcode;
 }
+
+
+
+jlong Java_com_megvii_licensemanager_sdk_jni_NativeLicenseAPI_nativeGetExpiretime(JNIEnv *env,
+                                                                            jclass type,
+                                                                            jlong apiName) {
+    typedef const char *(*pfunc)();
+    const char *version = ((pfunc) (apiName))();
+    MG_UINT64 expiration_time;
+    mg_licmgr.GetExpiretime(version,&expiration_time);
+    return expiration_time;
+
+}
