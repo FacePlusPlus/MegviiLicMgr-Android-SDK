@@ -31,7 +31,8 @@ public class NetWorkHelper {
     public static final int NETWORK_DISCONNETED = 0;
     public static final int NETWORK_CONNETED_WIFI = 1;
     public static final int NETWORK_CONNETED_GPRS = 2;
-    public static final int NETWORK_AIRPLANE = 3;
+    public static final int NETWORK_CONNETED_ETH = 3;
+    public static final int NETWORK_AIRPLANE = 4;
 
     public static int checkNetWorkConnection(Context context) {
         int dataState = NetWorkHelper.isDataConnection(context);
@@ -118,6 +119,9 @@ public class NetWorkHelper {
             } else if (type == ConnectivityManager.TYPE_MOBILE
                     && state == State.CONNECTED) {
                 return NETWORK_CONNETED_GPRS;
+            }else if(type == ConnectivityManager.TYPE_ETHERNET
+                    && state == State.CONNECTED){
+                return NETWORK_CONNETED_ETH;
             }
         }
         return NETWORK_DISCONNETED;
