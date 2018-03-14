@@ -68,16 +68,15 @@ public class LicenseManager {
      * @brief 获取一个用于授权请求的文本信息
      * @param[in] uuid 标示不同用户的唯一 id，可以为空字符串。如果 uuid 有具体意义，则可以享受由 Face++
      * 提供的各种统计服务。
-     * @param[in] durationTime 申请的授权时长（以当前时间开始计算，向后 30 或 365 天）
      * @param[in] apiName API 标识
      */
-    public String getContext(String uuid, int duration, long apiName) {
+    public String getContext(String uuid,  long apiName) {
         lastErrorCode = MG_RETCODE_OK;
         if (context == null) {
             lastErrorCode = MG_RETCODE_INVALID_ARGUMENT;
             return null;
         }
-        String content = NativeLicenseAPI.nativeGetLicense(context, uuid, duration, apiName);
+        String content = NativeLicenseAPI.nativeGetLicense(context, uuid,  apiName);
         if (isNumeric(content)) {
             lastErrorCode = Integer.parseInt(content);
             return null;
@@ -143,30 +142,28 @@ public class LicenseManager {
      * @param[in] url 请求的url，需要根据时区设置对应的url，目前有cn和us
      * @param[in] uuid 标示不同用户的唯一 id，可以为空字符串。如果 uuid 有具体意义，则可以享受由 Face++
      * 提供的各种统计服务。
-     * @param[in] apiKey 申请的授权时长（以当前时间开始计算，向后30或365天）
-     * @param[in] apiSecret 申请的授权时长（以当前时间开始计算，向后30或365天）
+     * @param[in] apiKey 官网申请的授权key
+     * @param[in] apiSecret 官网申请的授权secret
      * @param[in] apiName API 标识
-     * @param[in] durationTime 申请的授权时长（以当前时间开始计算，向后30或365天）
+     * @param[in] duration 申请的授权时长
 
      * @param[out] takeLicenseCallback 授权成功或者失败返回
      */
-    public void takeLicenseFromNetwork(String url,String uuid, String apiKey, String apiSecret, long apiName, int durationTime,
-                                       String sdkType, String duration,
-                                       final TakeLicenseCallback takeLicenseCallback) {
+    public void takeLicenseFromNetwork(String url,String uuid, String apiKey, String apiSecret, long apiName,
+                                        String duration, final TakeLicenseCallback takeLicenseCallback) {
         getExpirationMillis(apiName);
         boolean isAuthSuccess = needToTakeLicense();
         if (isAuthSuccess) {
             if (takeLicenseCallback != null)
                 takeLicenseCallback.onSuccess();
         } else {
-            String content = getContext(uuid, durationTime, apiName);
+            String content = getContext(uuid, apiName);
             String errorStr = getLastError();
             RequestManager requestManager = new RequestManager(context);
             String params = "";
             try {
                 params = "api_key=" + URLEncoder.encode(apiKey, "utf-8") + "&api_secret="
                         + URLEncoder.encode(apiSecret, "utf-8") + "&auth_msg=" + URLEncoder.encode(content, "utf-8")
-                        + "&sdk_type=" + URLEncoder.encode(sdkType, "utf-8")
                         + "&auth_duration=" + URLEncoder.encode(duration, "utf-8");
             } catch (Exception e) {
                 e.printStackTrace();

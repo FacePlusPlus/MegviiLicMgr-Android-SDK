@@ -15,21 +15,17 @@
 #define DURATION_365DAYS 365
 
 jstring Java_com_megvii_licensemanager_sdk_jni_NativeLicenseAPI_nativeGetLicense(
-        JNIEnv *env, jobject, jobject ctx, jstring juuid, jint duration,
+        JNIEnv *env, jobject, jobject ctx, jstring juuid,
         jlong apiName) {
 
     const char *uuid = env->GetStringUTFChars(juuid, 0);
     const char *context_data = nullptr;
     MG_INT32 context_length = 0;
-    MG_LICMGR_DURATION DURATION = MG_LICMGR_DURATION_1DAY;
-    if (duration == DURATION_365DAYS) {
-        DURATION = MG_LICMGR_DURATION_365DAYS;
-    } else if (duration == DURATION_30DAYS) {
-        DURATION = MG_LICMGR_DURATION_30DAYS;
-    }
+
+
     typedef const char *(*pfunc)();
     const char *version = ((pfunc) (apiName))();
-    mg_licmgr.GetContext(DURATION, uuid, &context_data,
+    mg_licmgr.GetContext( uuid, &context_data,
                          &context_length, version,
                          MG_END_ARG);
 

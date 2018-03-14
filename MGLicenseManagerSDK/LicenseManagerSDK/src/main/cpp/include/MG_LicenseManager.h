@@ -12,20 +12,6 @@
 #define MG_END_ARG NULL
 #define _OUT
 
-/**
- * @brief 单次授权时长类型
- *
- * 目前只支持单次授权 30 天或 365 天，具体收费标准参看官网相关内容。
- * 如果自行传入了非这两个值之外的其他值，函数不会运行成功。
- * [facepp]: https://www.faceplusplus.com.cn/ "Face++ 官网"
- */
-typedef enum {
-    MG_LICMGR_DURATION_1DAY = 1,
-    
-    MG_LICMGR_DURATION_30DAYS = 30,         ///< 单次授权30天
-
-    MG_LICMGR_DURATION_365DAYS = 365        ///< 单次授权365天
-} MG_LICMGR_DURATION;
 
 /**
  * @brief 联网授权算法函数集合
@@ -61,7 +47,6 @@ typedef struct {
      * @return 成功则返回 MG_RETCODE_OK
      */
     MG_RETCODE (*GetContext) (
-        MG_LICMGR_DURATION duration,
         const char* uuid,
         const char _OUT **context_data,
         MG_INT32 _OUT *context_length,

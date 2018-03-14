@@ -3,7 +3,7 @@ set(CMAKE_AUTOMOC ON)
 set(CMAKE_VERBOSE_MAKEFILE on)
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
-SET(VERSION 0.3.0)
+SET(VERSION 0.3.1)
 
 include_directories(${CMAKE_SOURCE_DIR}/include)
 message (${CMAKE_SOURCE_DIR})
@@ -20,7 +20,7 @@ set_target_properties(megviiUtils PROPERTIES
 
 add_library(licenseManager SHARED IMPORTED )
 set_target_properties(licenseManager PROPERTIES
-    IMPORTED_LOCATION "${jnilibs}/${ANDROID_ABI}/libMegviiLicenseManager-0.3.0.so")
+    IMPORTED_LOCATION "${jnilibs}/${ANDROID_ABI}/libMegviiLicenseManager-0.3.1.so")
 
 find_library( # Sets the name of the path variable.
               log-lib

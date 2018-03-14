@@ -128,7 +128,13 @@ typedef int MG_BOOL;
  * @判断 SDK 使用平台
  */
 #if __APPLE__
+#include "TargetConditionals.h"
+#if TARGET_IPHONE_SIMULATOR || TARGET_OS_IPHONE
     #define MGAPI_BUILD_ON_IPHONE   1
+#elif TARGET_OS_OSX
+    #define MGAPI_BUILD_ON_MAC 1
+#endif
+    
     
 #elif __ANDROID__
 #define MGAPI_BUILD_ON_ANDROID	1
